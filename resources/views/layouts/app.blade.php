@@ -104,8 +104,41 @@
 
         
 <script type="text/javascript">
+
+$('.show_confirm').click(function(event) {
+          var form =  $(this).closest("form");
+          var name = $(this).data("name");
+          event.preventDefault();
+          swal.fire({
+            title: 'Desea eliminar . Confirme ?',
+            text: 'luego de eliminar no se podra revertir',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar'
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+               form.submit();
+            }
+          });
+});
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
-   swal.fire({
+/*
+  swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'Your work has been saved',
+    showConfirmButton: false,
+    timer: 1500
+  });
+  */
+  /*
+  swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       icon: 'warning',
@@ -122,8 +155,12 @@ document.addEventListener('DOMContentLoaded', function () {
         )
       }
     })
+*/
+
 });
+
 </script>
+
 
     </body>
 

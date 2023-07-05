@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Session;
 use App\Models\Tecnico;
 use Illuminate\Http\RedirectResponse;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Http\Requests\TecnicoUpdateRequest;
 use App\Http\Requests\TecnicoCreateRequest;
+use App\DataTables\tecnicosDataTable;
 
 class TecnicoController extends Controller
 {
@@ -32,12 +34,18 @@ class TecnicoController extends Controller
         $this->middleware('auth');
     }
 
-	// http://127.0.0.1:8000/movie
+	
+    public function index(tecnicosDataTable $dataTable)
+    {
+       return $dataTable->render('tecnico.index');
+    }
+    /*
     public function index()
     {
         $tecnicos = tecnico::paginate(10);     
         return view('tecnico.index',compact('tecnicos'));
     }
+    */
 
     // http://127.0.0.1:8000/movie/create
     public function create()
@@ -95,6 +103,7 @@ public function update(TecnicoUpdateRequest $tecnico)
    {
        $tecnico->update($request->validated());
 
+       Session::flash('message','tecnico actualizado correctamente') ; 
        return to_route('tecnico.index')->with('status', 'tecnico updated!');
    }
 
