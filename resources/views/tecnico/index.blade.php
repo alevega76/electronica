@@ -27,8 +27,26 @@
 						</div>
 						<!-- /.card-header -->
 						<div class="card-body">
-						{{ $dataTable->table() }}
-						{{ $dataTable->scripts() }}
+
+						{{--
+							{{ $dataTable->table() }}
+							{{ $dataTable->scripts() }}
+						--}}
+					
+						<table id="data-table" class="table table-bordered data-table">
+							<thead>
+								<tr>
+									<th>idTecnico</th>
+									<th>CodTecnico</th>
+									<th>NomTecnico</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+
 						</div>
 						<div class="card-footer">
 							  <a class="btn btn-primary" href="{{ route('tecnico.create') }}">Agregar Tecnico</a>
@@ -37,8 +55,12 @@
 				</div>
 	
 	
+				<form id="delete_form" method="POST">
+					@csrf
+					@method('DELETE')
+				</form>
 
-	
+
 
 @endsection
 

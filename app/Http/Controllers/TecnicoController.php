@@ -107,14 +107,19 @@ public function update(TecnicoUpdateRequest $tecnico)
        return to_route('tecnico.index')->with('status', 'tecnico updated!');
    }
 
- public function destroy(Request $request ,Tecnico $tecnico)
+    public function destroy(Request $request ,Tecnico $tecnico)
     {
       //  dd($tecnico);
        //tecnico::destroy($tecnico);
       $request->tecnico->delete(); 
-      Session::flash('message','tecnico eliminado correctamente') ; 
+      //Session::flash('message','tecnico eliminado correctamente') ; 
 
       
-      return to_route('tecnico.index')->with('status', 'tecnico delete!');
+     //return to_route('tecnico.index')->with('status', 'tecnico delete!');
+     return response()->json([
+        'success' => 'tecnico eliminado correctamente'
+    ]);
     }
+
+    
 }

@@ -105,7 +105,87 @@
         
 <script type="text/javascript">
 
+function deleteConfirmation(e) {
+  console.log(e);
+           // e.preventDefault();
+            var url =  '{{ route("tecnico.destroy", ":id") }}';
+            console.log(e.target.dataset.id);
+            var id =  e.target.dataset.id ;//$(e).data('id');
+            url = url.replace(':id', id);
+            console.log("url ", url);
+            swal.fire({
+                title: "Delete?",
+                text: "Please ensure and then confirm!",
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: !0
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                  console.log("paso");
+                 // $('#delete_form').attr('action', url);
+                //  $('#delete_form').submit();
+                  
+                    console.log(id);
+                    const url2 = $(this).attr('href');
+                    var url =  '{{ route("tecnico.destroy", ":id") }}';
+                    url = url.replace(':id', id);
+                    console.log(url);
+                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                    console.log(CSRF_TOKEN);
+                    $.ajax({
+                        type: 'POST',
+                        Method: "DELETE",
+                        url: url,
+                        data: {_token: CSRF_TOKEN,_method: "delete"},
+                        dataType: 'JSON',
+                        success: function (results) {
+                          //location.href = location.href;
+                          var oTable = $('#data-table').dataTable();
+					                oTable.fnDraw(false);
+                          console.log(results.success);
+                          
+                          
+                          toastr.options = {
+                          "closeButton": false,
+                          "debug": false,
+                          "newestOnTop": false,
+                          "progressBar": true,
+                          "positionClass": "toast-top-right",
+                          "preventDuplicates": true,
+                          "onclick": null,
+                          //"showDuration": "1000",
+                          //"hideDuration": "500",
+                          "timeOut": "1000",
+                          //"extendedTimeOut": "100",
+                          "showEasing": "swing",
+                          "hideEasing": "linear",
+                          "showMethod": "fadeIn",
+                          "hideMethod": "fadeOut"
+                        }
+
+                        toastr.success(results.success);
+
+                            if (results.success === true) {
+                                //swal.fire("Done!", results.message, "success");
+                            } else {
+                               // swal.fire("Error!", results.message, "error");
+                            }
+                            
+                        }
+                    });
+                    
+                } else {
+                    e.dismiss;
+                }
+            }, function (dismiss) {
+                return false;
+            })
+}
+
 $('.show_confirm').click(function(event) {
+          console.log("delete");
           var form =  $(this).closest("form");
           var name = $(this).data("name");
           event.preventDefault();
@@ -162,7 +242,26 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 
-    </body>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  
+    var table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('tecnico.index') }}",
+        columns: [
+            {data: 'idTecnico', name: 'idTecnico'},
+            {data: 'CodTecnico', name: 'CodTecnico'},
+            {data: 'NomTecnico', name: 'NomTecnico'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+  });
+</script>	
+
+</body>
 
     
   

@@ -23,11 +23,33 @@ class tecnicosDataTable extends DataTable
     {
 
         return (new EloquentDataTable($query))
-            ->addColumn( 'action', function( $data ){ // $data is data od current row in table 
-            return view( 'tecnico.edit', [ 'data' => $data ] ); // return view with objects (row) data parameters
-            //return '<a href="#">'.$data->id.'</a>'; // or simply return html here
+            /*
+            ->addColumn('action', function($row){
+                $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->idTecnico.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
+                $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->idTecnico.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteProduct">Delete</a>';
+                return $btn;
             })
-            ->addColumn('action', 'tecnicos.action')
+            ->rawColumns(['action'])            
+*/
+
+            ->addColumn('action', function($row){
+                $actionBtn = '<a  href="/tecnicos/'. $row->idTecnico .'/edit" class="btn btn-success btn-sm">Edit</a>';
+                $actionBtn = $actionBtn.' <a action="javascript:void(0)" href="#" data-id="'.$row->idTecnico.'" data-action="" class="btn btn-danger btn-sm" onclick="deleteConfirmation(event);">Delete</a>';
+                //$actionBtn = $actionBtn.' <a href="#" data-id="" data-action="" class="deleteItem btn btn-danger btn-sm" onclick="deleteConfirmation('. $row->idTecnico .')">Delete</a>';
+                
+                return $actionBtn;
+            })
+            ->rawColumns(['action'])
+
+            /*    
+            ->addColumn('action', function($row){
+                $btn = '<a href="javascript:void(0)" class="edit btn btn-info btn-sm">View</a>';
+                $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+                $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-danger  btn-sm">Delete</a>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            */
             ->setRowId('idTecnico');
     }
 

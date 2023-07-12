@@ -42,6 +42,7 @@ Route::post('/tecnicos/store',[TecnicoController::class, 'store'])->name('tecnic
 Route::delete('/tecnicos/{tecnico}/destroy',[TecnicoController::class, 'destroy'])->name('tecnico.destroy');
 
 
+
 require __DIR__.'/auth.php';
 
 Auth::routes();
