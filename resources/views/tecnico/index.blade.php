@@ -33,7 +33,7 @@
 							{{ $dataTable->scripts() }}
 						--}}
 					
-						<table id="data-table" class="table table-bordered data-table">
+				<table id="data-table" class="display nowrap table table-bordered data-table" cellspacing="0" width="100%">
 							<thead>
 								<tr>
 									<th>idTecnico</th>
@@ -45,15 +45,20 @@
 							<tbody>
 
 							</tbody>
-						</table>
+				</table>
 
+						
 						</div>
 						<div class="card-footer">
 							  <a class="btn btn-primary" href="{{ route('tecnico.create') }}">Agregar Tecnico</a>
                 		</div>
 						<!-- /.card-body -->
 				</div>
-	
+				
+				
+
+
+
 	
 				<form id="delete_form" method="POST">
 					@csrf

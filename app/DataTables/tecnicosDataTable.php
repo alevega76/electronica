@@ -97,8 +97,8 @@ class tecnicosDataTable extends DataTable
                   Column::make('idTecnico'),
                   Column::make('CodTecnico'),
                   Column::make('NomTecnico'),            
-                  //Column::make('created_at'),
-                  //Column::make('updated_at'),
+                 // Column::make('created_at'),
+                 // Column::make('updated_at'),
         ];
     }
 

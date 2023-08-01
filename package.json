@@ -21,6 +21,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "datatables.net-responsive": "^2.5.0",
+        "datatables.net-responsive-bs5": "^2.5.0",
         "sweetalert2": "^11.7.12",
         "toastr": "^2.1.4"
     }

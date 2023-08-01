@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TecnicoController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendedorController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,9 @@ Route::patch('/tecnicos/{tecnico}/update',[TecnicoController::class, 'update'])-
 Route::post('/tecnicos/store',[TecnicoController::class, 'store'])->name('tecnico.store');
 Route::delete('/tecnicos/{tecnico}/destroy',[TecnicoController::class, 'destroy'])->name('tecnico.destroy');
 
+//Route::resource('posts', 'PostController');
+
+Route::get('/users', [UserController::class, 'index'])->name('user.index');
 
 
 require __DIR__.'/auth.php';

@@ -19,11 +19,11 @@
         <!-- overlayScrollbars -->
         <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
 
-
+      
+     
+        
 	 <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        
-
 
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">
@@ -102,7 +102,10 @@
         <script src="/dist/js/adminlte.js"></script>
         <!-- AdminLTE for demo purposes -->
 
+        <script src="/dist/js/adminlte.js"></script>
+
         
+
 <script type="text/javascript">
 
 function deleteConfirmation(e) {
@@ -241,7 +244,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </script>
 
+<script type="text/javascript">
+$(document).ready(function() {
+  
+  var xtable =  new DataTable('#example', {
+    responsive: true
+});
 
+  $('.users-table').DataTable( {
+    responsive: true
+  
+  });
+});
+</script>	
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -249,11 +264,20 @@ $(document).ready(function() {
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
+        responsive: true,
+        /*
+        responsive: {
+         details: true
+        },
+        autoWidth: false,
+        */
         ajax: "{{ route('tecnico.index') }}",
         columns: [
             {data: 'idTecnico', name: 'idTecnico'},
             {data: 'CodTecnico', name: 'CodTecnico'},
             {data: 'NomTecnico', name: 'NomTecnico'},
+          //  {data: 'created_at', name: 'created_at'},
+          //  {data: 'updated_at', name: 'updated_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });

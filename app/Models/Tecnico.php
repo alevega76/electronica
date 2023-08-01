@@ -15,6 +15,5 @@ class Tecnico extends Model
 	public $timestamps = false ; 
 	protected $table = "tecnicos";
 	protected $guarded = array("*");
-	protected $fillable = array("CodTecnico","NomTecnico");
-
+	protected $fillable = array("CodTecnico","NomTecnico"); //,"created_at","updated_at"
 }
