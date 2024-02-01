@@ -2,6 +2,7 @@
 
 return [
 
+   
     /*
     |--------------------------------------------------------------------------
     | Title
@@ -298,6 +299,15 @@ return [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
+        [
+            'type'         => 'darkmode-widget',
+            'topnav_right' => true, // Or "topnav => true" to place on the left.
+            'icon_enabled' =>  'fas fa-moon',
+            'icon_disabled' => 'far fa-moon',
+            'color_enabled' => 'primary',
+            'color_disabled' => 'info'
+        ],
+    
 
         // Sidebar items:
         [
