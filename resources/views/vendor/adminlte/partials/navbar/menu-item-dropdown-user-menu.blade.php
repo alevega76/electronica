@@ -17,10 +17,19 @@
 
     {{-- User menu toggler --}}
     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+         <!-- Current Profile Photo -->
+
         @if(config('adminlte.usermenu_image'))
+        <div class="mt-2" x-show="! photoPreview">
+            <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" 
+            class="user-image img-circle elevation-2"
+            >
+        </div>
+            {{-- 
             <img src="{{ Auth::user()->adminlte_image() }}"
                  class="user-image img-circle elevation-2"
                  alt="{{ Auth::user()->name }}">
+                  --}}            
         @endif
         <span @if(config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
             {{ Auth::user()->name }}

@@ -14,7 +14,8 @@ class CreateTecnicosTable extends Migration {
 	{
 		Schema::create('tecnicos', function(Blueprint $table)
 		{
-			$table->integer('idTecnico')->primary();
+			$table->increments('idTecnico');
+			//$table->integer('idTecnico')->primary();
 			$table->integer('CodTecnico')->nullable();
 			$table->string('NomTecnico', 50)->nullable();
 		});

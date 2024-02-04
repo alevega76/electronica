@@ -18,5 +18,8 @@ class UserController extends Controller
     {
        return $dataTable->render('user.index');
     }
+
+    
+
     //
 }
