@@ -17,7 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
 
 Route::get('/home', function() {
     return view('home');
@@ -43,3 +42,13 @@ Route::get('/tecnicos/{tecnico}/edit',[TecnicoController::class, 'edit'])->name(
 Route::patch('/tecnicos/{tecnico}/update',[TecnicoController::class, 'update'])->name('tecnico.update');
 Route::post('/tecnicos/store',[TecnicoController::class, 'store'])->name('tecnico.store');
 Route::delete('/tecnicos/{tecnico}/destroy',[TecnicoController::class, 'destroy'])->name('tecnico.destroy');  
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

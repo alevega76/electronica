@@ -19,6 +19,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   
+  console.log("toastr",toastr);
   toastr.options = {
   "closeButton": false,
   "debug": false,
