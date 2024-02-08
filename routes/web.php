@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\TecnicoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RepararController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/reparar', [RepararController::class, 'index'])->name('reparar.index');
+
 Route::get('/tecnicos', [TecnicoController::class, 'index'])->name('tecnico.index');
 Route::get('/tecnicos/create',[TecnicoController::class, 'create'])->name('tecnico.create');
 Route::get('/tecnicos/{tecnico}/edit',[TecnicoController::class, 'edit'])->name('tecnico.edit');
@@ -52,3 +55,7 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::get('phpmyinfo', function () {
+    phpinfo(); 
+})->name('phpmyinfo');
