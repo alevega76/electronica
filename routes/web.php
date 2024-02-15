@@ -38,6 +38,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/reparar', [RepararController::class, 'index'])->name('reparar.index');
+Route::get('/reparar/importdata',[RepararController::class, 'ImportData'])->name('reparar.importdata');
 
 Route::get('/tecnicos', [TecnicoController::class, 'index'])->name('tecnico.index');
 Route::get('/tecnicos/create',[TecnicoController::class, 'create'])->name('tecnico.create');
