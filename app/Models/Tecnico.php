@@ -16,4 +16,13 @@ class Tecnico extends Model
 	protected $table = "tecnicos";
 	protected $guarded = array("*");
 	protected $fillable = array("CodTecnico","NomTecnico"); //,"created_at","updated_at"
+
+	
+	
+	
+	public function Reparar()
+    {
+        return $this->belongsTo(Reparar::class, 'CodTecnico', 'CodTecnico');
+    }
+	
 }

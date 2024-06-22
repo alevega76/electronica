@@ -1,4 +1,5 @@
 
+
 @extends('adminlte::page')
 
 @section('content_header')
@@ -15,10 +16,13 @@
 @section('content')
 	
 	  @section('header')
+
+   
+
         <div class="bg-white shadow">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                  <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                        Reparar
+                        Solicitudes de Reparacion
                   </h2>
             </div>
         </div>
@@ -29,21 +33,52 @@
 	
         @include('alerts.success')
 
-
-				<div class="card card-primary m-5"  style="width: 50rem;" >
+				<div class="card card-primary m-15"  style="width: 100%;" >
 						<div class="card-header">
-							<h3 class="card-title">Listado de Tecnicos</h3>
+							<h3 class="card-title">Listado de Solicitudes de Reparacion</h3>
+
 						</div>
+
 						<!-- /.card-header -->
 						<div class="card-body">
 
+						{{--
+							{{ $dataTable->table() }}
+							{{ $dataTable->scripts() }}
+						--}}
+					
+				<table id="data-table" class="display nowrap table table-bordered data-table" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+                  <th>ImpCompr</th>
+									<th>idRepar</th>
+									<th>CodRepar</th>
+                  <th>FecEntrada</th>
+									<th>ClientEmpresa</th>
+                  <th>Tecnico_descripcion</th>   
+                  <th>Aparato_descripcion</th> 
+                  <th>Marca_descripcion</th> 
+                  <th>Modelo</th> 
+                  <th>Action</th>
+                  
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+				</table>
 
 						
 						</div>
+						<div class="card-footer">
+							  <a class="btn btn-primary" href="{{ route('reparar.create') }}">Agregar Solicitud</a>
+                		</div>
+						<!-- /.card-body -->
 				</div>
 				
 				
-				
+
+
 
 
 @endsection
@@ -52,14 +87,221 @@
 
 
 @section('js')
-    
+
+
 <script type="text/javascript">
+
+  $(document).ready(function() {
+        //$('.js-example-basic-single').select2();
+
+   //     $(".js-example-theme-single").select2({
+   //        theme: "classic"
+  //      });	
+});
+</script>        
+
+<script type="text/javascript">
+
+    function deleteConfirmation(e) {
+                //console.log(e);
+                //e.preventDefault();
+                var url =  '{{ route("reparar.destroy", ":id") }}';
+                console.log(e.target.dataset.id);
+                var id =  e.target.dataset.id ;//$(e).data('id');
+                url = url.replace(':id', id);
+                console.log("url ", url);
+                swal.fire({
+                    title: "Delete?",
+                    text: "Please ensure and then confirm!",
+                    type: "warning",
+                    showCancelButton: !0,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    reverseButtons: !0
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                      console.log("paso");
+                     // $('#delete_form').attr('action', url);
+                    //  $('#delete_form').submit();
+                      
+                        console.log(id);
+                        const url2 = $(this).attr('href');
+                        var url =  '{{ route("reparar.destroy", ":id") }}';
+                        url = url.replace(':id', id);
+                        console.log(url);
+                        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                        console.log(CSRF_TOKEN);
+                        $.ajax({
+                            type: 'POST',
+                            Method: "DELETE",
+                            url: url,
+                            data: {_token: CSRF_TOKEN,_method: "delete"},
+                            dataType: 'JSON',
+                            success: function (results) {
+                              //location.href = location.href;
+                              var oTable = $('#data-table').dataTable();
+                                        oTable.fnDraw(false);
+                              console.log(results.success);
+                              
+                              
+                              toastr.options = {
+                              "closeButton": false,
+                              "debug": false,
+                              "newestOnTop": false,
+                              "progressBar": true,
+                              "positionClass": "toast-top-right",
+                              "preventDuplicates": true,
+                              "onclick": null,
+                              //"showDuration": "1000",
+                              //"hideDuration": "500",
+                              "timeOut": "1000",
+                              //"extendedTimeOut": "100",
+                              "showEasing": "swing",
+                              "hideEasing": "linear",
+                              "showMethod": "fadeIn",
+                              "hideMethod": "fadeOut"
+                            }
     
-    $(document).ready(function() {
-
-
+                            toastr.success(results.success);
+    
+                                if (results.success === true) {
+                                    //swal.fire("Done!", results.message, "success");
+                                } else {
+                                   // swal.fire("Error!", results.message, "error");
+                                }
+                                
+                            }
+                        });
+                        
+                    } else {
+                        e.dismiss;
+                    }
+                }, function (dismiss) {
+                    return false;
+                })
     }
-</script>	      
-script>	
+    
+    $('.show_confirm').click(function(event) {
+              console.log("delete");
+              var form =  $(this).closest("form");
+              var name = $(this).data("name");
+              event.preventDefault();
+              swal.fire({
+                title: 'Desea eliminar . Confirme ?',
+                text: 'luego de eliminar no se podra revertir',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar'
+              })
+              .then((result) => {
+                if (result.isConfirmed) {
+                   form.submit();
+                }
+              });
+    });
+    
+
+  
+
+    
+    document.addEventListener('DOMContentLoaded', function () {
+
+   
+   
+      // In your Javascript (external .js resource or <script> tag)
+
+    /*
+      swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your work has been saved',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      */
+      /*
+      swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            swal.fire(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
+          }
+        })
+    */
+    
+    });
+    
+    </script>
+    
+    <script type="text/javascript">
+
+
+    $(document).ready(function() {
+      
+      var xtable =  new DataTable('#example', {
+        responsive: true
+
+
+    });
+    
+      $('.users-table').DataTable( {
+        responsive: true
+      
+      });
+    });
+    </script>	
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+      
+        var table = $('.data-table').DataTable({
+
+            "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            },
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            /*
+            responsive: {
+             details: true
+            },
+            autoWidth: false,
+            */
+            ajax: "{{ route('reparar.index') }}",
+            columns: [
+                
+                {data: 'ImpCompr', name: 'ImpCompr',title: "Accion"},
+                {data: 'idRepar', name: 'idRepar',title: "Fila"},
+                {data: 'CodRepar', name: 'CodRepar',title: "Solicitud"},
+                //{data: 'FecEntrada', name: 'FecEntrada',title: "Entrada",render:  $.fn.dataTable.moment('DD/MM/YYYY') },
+                {data: 'FecEntrada', name: 'FecEntrada',title: "Entrada",render: DataTable.render.datetime('DD/MM/YYYY') },
+                {data: 'ClientEmpresa', name: 'ClientEmpresa', title: "Cliente / Comercio"},
+                {data: 'Tecnico_descripcion', name: 'Tecnico_descripcion',title: "Tecnico"},
+                {data: 'Aparato_descripcion', name: 'Aparato_descripcion',title: "Aparato"},
+                {data: 'Marca_descripcion', name: 'Marca_descripcion',title: "Marca"},
+                {data: 'Modelo', name: 'Modelo',title: "Modelo"},
+                //{data: 'CodTecnico', name: 'CodTecnico',title: "CodTecnico"},
+                   //  {data: 'created_at', name: 'created_at'},
+              //  {data: 'updated_at', name: 'updated_at'},
+                {data: 'action', name: 'action',title: "Accion", orderable: false, searchable: false}
+            ]
+        });
+        
+      });
+
+    </script>	
 
 @stop

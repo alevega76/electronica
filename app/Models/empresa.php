@@ -16,4 +16,11 @@ class Empresa extends Model
 	protected $table = "empresas";
 	protected $guarded = array("*");
 	protected $fillable = array("CodEmpresa","NomEmpresa"); //,"created_at","updated_at"
+
+	
+//	public function Reparar()
+//	{
+//		return $this->belongsTo(Empresa::class, 'EmpresaVendedora','CodEmpresa');
+//	}
 }
+

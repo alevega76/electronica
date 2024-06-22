@@ -1,0 +1,15 @@
+27/05/2024 hay que terminar exportar las tablas que faltan para empezar la parte de reparaciones
+           Todas las tablas deben estar importadas e instaladas en la db:
+            Marcas
+            Tecnicos
+            Vendedores
+            Reparar
+            Faltan--------------
+            Departamentos
+            Aparatos
+            Comercios
+            Talonarios 
+
+
+            alejandrovega2376@gmail.com
+            https://mailtrap.io/inboxes/2586838/messages/4295317131

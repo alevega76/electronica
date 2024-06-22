@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\tecnico;
+use App\Models\Tecnico;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -33,8 +33,8 @@ class tecnicosDataTable extends DataTable
 */
 
             ->addColumn('action', function($row){
-                $actionBtn = '<a  href="/tecnicos/'. $row->idTecnico .'/edit" class="btn btn-success btn-sm">Edit</a>';
-                $actionBtn = $actionBtn.' <a action="javascript:void(0)" href="#" data-id="'.$row->idTecnico.'" data-action="" class="btn btn-danger btn-sm" onclick="deleteConfirmation(event);">Delete</a>';
+                $actionBtn = '<a  href="/tecnicos/'. $row->idTecnico .'/edit" class="btn btn-success btn-sm">Editar</a>';
+                $actionBtn = $actionBtn.' <a action="javascript:void(0)" href="#" data-id="'.$row->idTecnico.'" data-action="" class="btn btn-danger btn-sm" onclick="deleteConfirmation(event);">Borrar</a>';
                 //$actionBtn = $actionBtn.' <a href="#" data-id="" data-action="" class="deleteItem btn btn-danger btn-sm" onclick="deleteConfirmation('. $row->idTecnico .')">Delete</a>';
                 
                 return $actionBtn;

@@ -16,4 +16,9 @@ class Marca extends Model
 	protected $table = "marcas";
 	protected $guarded = array("*");
 	protected $fillable = array("CodMarca","NomMarca"); //,"created_at","updated_at"
+
+	public function Reparar()
+    {
+        return $this->belongsTo(Reparar::class, 'CodMarca', 'CodMarca');
+    }
 }

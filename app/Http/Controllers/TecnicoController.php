@@ -39,6 +39,7 @@ class TecnicoController extends Controller
     {
        return $dataTable->render('tecnico.index');
     }
+    
     /*
     public function index()
     {
@@ -53,14 +54,12 @@ class TecnicoController extends Controller
         $tecnico = new tecnico();
         $operation = false;
         return view('tecnico.create',['tecnico'=>$tecnico,'operation'=>$operation]);
-
-
     }
 
     //public function store(Request $request)
     public function store(TecnicoCreateRequest $request)
     {
-     
+        //dd($request);
         tecnico::create($request->validated());
         Session::flash('message','tecnico creado correctamente') ; 
         return to_route('tecnico.index')->with('status', 'tecnico created!');
@@ -111,6 +110,7 @@ public function update(TecnicoUpdateRequest $tecnico)
     {
       //  dd($tecnico);
        //tecnico::destroy($tecnico);
+       
       $request->tecnico->delete(); 
       //Session::flash('message','tecnico eliminado correctamente') ; 
 

@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
+
+
+
+use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tecnico;
@@ -11,21 +16,30 @@ use App\Models\Empresa;
 use App\Models\Departamento;
 //use App\Models\Provincia;
 use App\Models\Reparar;
+use App\Models\Talonario;
+use App\Http\Requests\RepararUpdateRequest;
+use App\Http\Requests\RepararCreateRequest;
+use App\DataTables\repararDataTable;
+use JeroenNoten\LaravelAdminLte\View\Components\Tool\Datatable;
+use Yajra\DataTables\EloquentDataTable;
 
 class RepararController extends Controller
 {
+    /*
     public function index()
     {
-
+        //NO BORRAR ES PARA LA IMPORTACION DE DATOS DESDE SQL SERVER    
         $dataSQLServer = DB::connection('sqlsrv')->table('ELEC_TECNICOS')->get();
         $dataArray = $dataSQLServer->toArray();
         dd($dataArray);
 
         return response()->json($dataSQLServer);
     }
+    */
 
     public function ImportData()
     {
+
 
         $dataTecnicos = DB::connection('sqlsrv')->table('ELEC_TECNICOS')->get();
         $dataArrayTecnicos = $dataTecnicos->toArray();
@@ -52,10 +66,10 @@ class RepararController extends Controller
         $dataArrayAparatos = $dataAparatos->toArray();
         DB::connection('mysql')->table('aparatos')->truncate();
         foreach ($dataArrayAparatos as $item) {
-            $marca = new Aparato();
-            $marca->CodAparato = $item->Cod_Aparato;
-            $marca->NomAparato = $item->Nombre_Aparato;
-            $marca->save();
+            $aparato = new Aparato();
+            $aparato->CodAparato = $item->Cod_Aparato;
+            $aparato->NomAparato = $item->Nombre_Aparato;
+            $aparato->save();
         }
 
         
@@ -79,7 +93,26 @@ class RepararController extends Controller
             $departamento->NomDepart = $item->Nom_Localidad;
             $departamento->save();
         }
+        /*
+        $dataTalonarios = DB::connection('sqlsrv')->table('ELEC_TALONARIOS')->get();
+        $dataArrayTalonarios = $dataTalonarios->toArray();
+        DB::connection('mysql')->table('talonarios')->truncate();
 
+        foreach ($dataArrayTalonarios as $item) {
+            $talonario = new Talonario();
+            $talonario->NroTalonario = $item->Num_Talonario;
+            $talonario->Descripcion = $item->Descripcion;
+            $talonario->Tipo = $item->Tipo_Asociado;
+            $talonario->Sucursal = $item->Sucursal_Asociada;
+            //$talonario->DestImpr = $item->Comprobante;
+            $talonario->DestImpr = $item->Destino_Impresion;
+            $talonario->CantMaxItera = $item->Cantidad_Max_itera;
+            $talonario->PriNumHab = $item->Primer_Num_Habilitado;
+            $talonario->UltNumHab = $item->Ultimo_Num_Habilitado;
+            $talonario->ProxEmitir = $item->Proximo_Emitir;
+            $talonario->save();
+        }
+            */
         $dataReparar = DB::connection('sqlsrv')->table('ELEC_SOLSERV')->get();
         $dataArrayReparar = $dataReparar->toArray();
         DB::connection('mysql')->table('reparar')->truncate();
@@ -89,8 +122,8 @@ class RepararController extends Controller
             $dataArrayReparar->FecEntrada = $item->Fe_Entrada;
             $dataArrayReparar->CodEmpresa = $item->Cod_Comercio;
             $dataArrayReparar->ClientEmpresa = $item->Cliente_Comercio;
-            $dataArrayReparar->Aparato = $item->Aparato;
-            $dataArrayReparar->Marca = $item->Marca;
+            $dataArrayReparar->CodAparato = $item->Aparato;
+            $dataArrayReparar->CodMarca = $item->Marca;
             $dataArrayReparar->Modelo = $item->Modelo;
             $dataArrayReparar->FecSalida = $item->Fe_Salida;
             $dataArrayReparar->NroSerie = $item->Nro_Serie;
@@ -137,6 +170,176 @@ class RepararController extends Controller
 
 
         return "Proceso terminado";
+    }
+
+     /*
+	    Verb        Path 			      Action 		Route Name
+		GET        /photo   	          index         photo.index
+		GET        /photo/create          create        photo.create
+		POST       /photo                 store         photo.store
+		GET        /photo/{photo}         show          photo.show
+		GET        /photo/{photo}/edit    edit          photo.edit
+		PUT/PATCH  /photo/{photo}         update        photo.update
+		DELETE     /photo/{photo}         destroy       photo.destroy
+	*/
+
+
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+	
+    public function index(repararDataTable $dataTable)
+    {
+     //$query = Reparar::with('tecnico','aparato')->select('reparar.*');
+        
+        //dd($tecnicos);
+     //   dd($dataTable->dataTable($query));
+       //dd($query->get());
+    //   dd($query->get()->toJson());
+     //  dd(new EloquentDataTable($query));
+       return $dataTable
+       //->with('tecnicos', $tecnicos)
+       ->render('reparar.index');
+    }
+
+    /*
+    public function index()
+    {
+        $tecnicos = tecnico::paginate(10);     
+        return view('tecnico.index',compact('tecnicos'));
+    }
+    */
+
+    // http://127.0.0.1:8000/movie/create
+    public function create()
+    {
+        $tecnicos = Tecnico::all();
+        $aparatos = Aparato::all();
+        $marcas = Marca::all();
+        $empresas =  Empresa::all();
+        $departamentos = Departamento::all();
+
+        $reparar = new reparar();
+        
+        $reparar->FecEntrada = now();
+        $reparar->FueraZona = "N";
+        $reparar->Garantia = "N";
+
+        /*
+        $reparar->FecCompra = now();
+        $reparar->FecConsulta = now();
+        */
+        $reparar->CodRepar = 1;
+        //$reparar->ClientEmpresa= "aaaaaaaaaaa";
+
+        $operation = false;
+        return view('reparar.create',[
+        'reparar'=>$reparar,
+        'operation'=>$operation,
+        'tecnicos'=>$tecnicos,
+        'aparatos'=>$aparatos,
+        'marcas' => $marcas,
+        'empresas' => $empresas,
+        'departamentos' => $departamentos
+        ]);
+    }
+
+    //public function store(Request $request)
+    public function store(RepararCreateRequest $request)
+    {
+        
+        //dd($request);
+        $talonario = Talonario::first();
+       // dd($talonario);
+
+        $talonario->ProxEmitir = $talonario->ProxEmitir + 1;
+        
+        $talonario->update();
+
+        //$request->CodRepar =  $talonario->ProxEmitir ;
+        //dd($request->ClientEmpresa);
+        //$request->input('show', 0)
+        $validatedData = $request->validated();
+
+        $validatedData['CodRepar'] = $talonario->ProxEmitir ;
+        //dd($validatedData);
+
+        Reparar::create($validatedData);
+        Session::flash('message','solicitud creado correctamente') ; 
+        return to_route('reparar.index')->with('status', 'solicitud created!');
+    }
+
+    public function show($id)
+    {
+    	// $producto = Reparar::with('tecnico')->findOrFail($id);
+       // return view('producto.show', compact('producto'));
+    }
+
+    
+
+  public function edit(Reparar $reparar)
+  {
+    $operation = true;   
+
+    $tecnicos = Tecnico::all();
+    $aparatos = Aparato::all();
+    $marcas = Marca::all();
+    $empresas =  Empresa::all();
+    $departamentos = Departamento::all();
+
+    return view('reparar.edit',[
+    'reparar'=>$reparar,
+    'operation'=>$operation,
+    'tecnicos'=>$tecnicos,
+    'aparatos'=>$aparatos,
+    'marcas' => $marcas,
+    'empresas' => $empresas,
+    'departamentos' => $departamentos
+    ]);
+   
+   }
+/*
+public function update(TecnicoUpdateRequest $tecnico)
+    {
+        //$tecnico = tecnico::find($id);
+        
+        //$request->tecnico->fill($request->all());
+        //$request->tecnico->save() ;
+
+        $tecnico->fill($request->all());
+        $tecnico->save() ;
+
+        Session::flash('message','tecnico Editado correctamente') ; 
+        return Redirect::to('/Tecnico');
+
+   }
+*/
+   public function update(RepararUpdateRequest $request, Reparar $reparar)
+   {
+      //dd($reparar);
+
+       $reparar->update($request->validated());
+
+       Session::flash('message','solicitud actualizado correctamente') ; 
+       return to_route('reparar.index')->with('status', 'solicitud updated!');
+   }
+
+    public function destroy(Request $request ,Reparar $reparar)
+    {
+      //  dd($tecnico);
+       //tecnico::destroy($tecnico);
+       
+      $request->reparar->delete(); 
+      //Session::flash('message','tecnico eliminado correctamente') ; 
+
+      
+     //return to_route('tecnico.index')->with('status', 'tecnico delete!');
+     return response()->json([
+        'success' => 'solicitud eliminado correctamente'
+    ]);
     }
 
 }

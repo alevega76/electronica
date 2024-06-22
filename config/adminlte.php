@@ -133,8 +133,8 @@ return [
     'usermenu_enabled' => true,
     'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => true,
-    'usermenu_desc' => true,
+    'usermenu_image' => true, 
+    'usermenu_desc' => false,  
     'usermenu_profile_url' => true,
 
     /*
@@ -321,7 +321,7 @@ return [
         ],
         [
             'text'        => 'Dashboard',
-            'url'         => 'home',
+            'url'         => 'dashboard', //home
             'icon'        => 'far fa-fw fa-file',
         ],
         [
@@ -330,6 +330,17 @@ return [
             'icon'        => 'far fa-fw fa-file',
             'label'       => 4,
             'label_color' => 'success',
+        ],
+        ['header' => 'REPARACIONES'],
+        [
+            'text' => 'Solicitudes',
+            'url'  => 'reparar',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Consultas',
+            'url'  => 'consultas',
+            'icon' => 'fas fa-fw fa-user',
         ],
         ['header' => 'account_settings'],
         [
@@ -347,11 +358,23 @@ return [
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
                 [
+                    'text' => 'Empresas',
+                    'url'  => 'empresas',
+                ],
+                [
+                    'text' => 'Aparatos',
+                    'url'  => 'aparatos',
+                ],
+                [
                     'text' => 'Tecnicos',
                     'url'  => 'tecnicos',
                 ],
                 [
-                    'text'    => 'Marcas',
+                    'text' => 'Marcas',
+                    'url'  => 'marcas',
+                ],
+                [
+                    'text'    => 'Configuracion',
                     'url'     => '#',
                     'submenu' => [
                         [

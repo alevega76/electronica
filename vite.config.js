@@ -15,6 +15,8 @@ export default defineConfig({
             resolve:{
                 alias:{
                     '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+                   // '$':'jQuery',
+                   'moment': path.resolve(__dirname, 'node_modules/moment/moment.js'),
                 }
             },
             // Fin Importamos Bootstrap 5 

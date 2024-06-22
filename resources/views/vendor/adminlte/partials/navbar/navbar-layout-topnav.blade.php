@@ -4,6 +4,7 @@
 
     <div class="{{ config('adminlte.classes_topnav_container', 'container') }}">
 
+        
         {{-- Navbar brand logo --}}
         @if(config('adminlte.logo_img_xl'))
             @include('adminlte::partials.common.brand-logo-xl')
@@ -38,6 +39,8 @@
             @each('adminlte::partials.navbar.menu-item', $adminlte->menu('navbar-right'), 'item')
 
             {{-- User menu link --}}
+            
+             
             @if(Auth::user())
                 @if(config('adminlte.usermenu_enabled'))
                     @include('adminlte::partials.navbar.menu-item-dropdown-user-menu')

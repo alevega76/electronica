@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        
         Schema::table('empresas', function (Blueprint $table) {
             $table->string('Direccion')->nullable(); // Agregar el campo "age" de tipo integer
         });

@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 
-	@section('content')
+@section('content')
 
 		
 		@section('header')
@@ -14,8 +14,6 @@
         </div>
     	@endsection
 
-	
-
 		<form method="POST" action="{{ route('tecnico.store',$tecnico) }}">
 		    @csrf 
 			<div class="d-flex align-items-center mt-5"  >
@@ -26,15 +24,20 @@
 						<div class="card-body">
 							
 
-								@include('Tecnico.forms.usr')
+								@include('tecnico.forms.usr')
 
 						</div>
 						<div class="card-footer">
-							<button type="submit" class="btn btn-primary">Grabar</button>
+							<div class='d-flex flex-wrap justify-content-between'>
+								<button type="button" class="btn btn-primary" onclick="window.location='{{ route('tecnico.index') }}'">Cancelar</button>
+								<button type="submit" class="btn btn-primary">Grabar</button>
+							</div>
 						</div>
+
 				</div>
 			</div>			 
             <!-- /.card -->		
 		   </div>			 
 		</form>	
-	@endsection
+
+@endsection

@@ -14,11 +14,10 @@
 @endif
 
 <li class="nav-item dropdown user-menu">
-
     {{-- User menu toggler --}}
-    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
          <!-- Current Profile Photo -->
-
+        
         @if(config('adminlte.usermenu_image'))
         <div class="mt-2" x-show="! photoPreview">
             <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" 
@@ -31,11 +30,13 @@
                  alt="{{ Auth::user()->name }}">
                   --}}            
         @endif
-        <span @if(config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
-            {{ Auth::user()->name }}
-        </span>
+        @if(config('adminlte.usermenu_desc'))
+            <span  class="d-none d-md-inline" >
+                {{ Auth::user()->name }}
+            </span>
+        @endif
     </a>
-
+    
     {{-- User menu dropdown --}}
     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
@@ -70,6 +71,9 @@
         @endif
 
         {{-- User menu footer --}}
+
+          
+
         <li class="user-footer">
             @if($profile_url)
                 <a href="{{ $profile_url }}" class="btn btn-default btn-flat">

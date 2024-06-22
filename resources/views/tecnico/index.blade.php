@@ -68,15 +68,6 @@
 
 
 
-	
-				<form id="delete_form" method="POST">
-					@csrf
-					@method('DELETE')
-				</form>
-
-
-				
-
 
 @endsection
 
@@ -88,8 +79,8 @@
 <script type="text/javascript">
 
     function deleteConfirmation(e) {
-      console.log(e);
-               // e.preventDefault();
+                //console.log(e);
+                //e.preventDefault();
                 var url =  '{{ route("tecnico.destroy", ":id") }}';
                 console.log(e.target.dataset.id);
                 var id =  e.target.dataset.id ;//$(e).data('id');

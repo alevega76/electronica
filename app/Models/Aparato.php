@@ -16,4 +16,9 @@ class Aparato extends Model
 	protected $table = "aparatos";
 	protected $guarded = array("*");
 	protected $fillable = array("CodAparato","NomAparato"); //,"created_at","updated_at"
+
+	public function Reparar()
+    {
+        return $this->belongsTo(Reparar::class, 'CodAparato', 'CodAparato');
+    }
 }
